@@ -1,1 +1,1 @@
-# farmanalytics
+# Скелет приложения на express
