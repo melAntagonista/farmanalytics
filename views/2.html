@@ -1,0 +1,40 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Возраст', 'Проценты'],
+                ['<21', 15],
+                ['21-30', 21],
+                ['31-40', 32],
+                ['41-50', 20],
+                ['51-60', 8],
+                ['>60', 4]
+
+            ]);
+
+            var options = {
+                title: 'РАСПРЕДЕЛЕНИЕ ПО ВОЗРАСТУ',
+                pieHole: 0.65,
+                legend: { position: 'bottom' },
+                titleTextStyle: {
+                    fontSize: 24,
+                    bold: true,
+                }
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+
+<body>
+    <div id="donutchart" style="width: 900px; height: 500px;"></div>
+</body>
+
+</html>
