@@ -1,0 +1,67 @@
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawStuff);
+
+      function drawStuff() {
+        var data = new google.visualization.arrayToDataTable([
+          ['Доля пациентов', 'Количество приемов'],
+          ["1", 55],
+          ["2", 22],
+          ["3", 10],
+          ["4-5", 8],
+          ['>6', 5]
+        ]);
+
+        var options = {
+          width: '75%',
+          legend: { position: 'none' },
+          titleTextStyle: {
+                    fontSize: 24,
+                    bold: true,
+                    format: 'percent',
+                    },
+          chart: {
+            title: 'КАК ЧАСТО ПАЦИЕНТЫ ОБРАЩАЮТСЯ К ВРАЧУ ПО ПОВОДУ МИГРЕНИ В ПЕРВЫЙ ГОД ПОСТАНОВКИ ДИАГНОЗА'
+            },
+        //   axes: {
+        //     x: {
+        //       0: { side: 'bottom', label: 'White to move'} 
+        //     }
+        //   },
+          bar: { groupWidth: "40%" },
+          vAxis: {
+            title: 'Доля пациентов',
+            },
+            hAxis: {
+            title: 'Количество приемов',
+            }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('top_x_div'));
+        // Convert the Classic options to Material options.
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      };
+    </script>
+    <div id="top_x_div" style="width: 800px; height: 600px;"></div>
+    <div>
+      <p>Фильтр по полу</p>
+<select>
+<option> без фильтра </option>
+<option> Мужчины </option>
+<option> Женщины </option>
+</select>
+</div>
+<br>
+<div>
+<p>Фильтр по возрасту</p>
+<select>
+    <option> без фильтра </option>
+  <option> <21</option>
+  <option>21 - 30</option>
+  <option>31 - 40</option>
+  <option>41 - 50</option>
+  <option>51 - 60</option>
+  <option> >60</option>
+</select>
+</div>
