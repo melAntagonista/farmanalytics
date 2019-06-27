@@ -87,4 +87,4 @@ const farmSchema = new mongoose.Schema({
      clinic: String 
 });
 
-module.exports = mongoose.model('Farm', farmSchema);
+module.exports = mongoose.model('Farm',  farmSchema);
