@@ -1,33 +1,19 @@
-<div class="page-header">
-    <h1>PharmAnalitics</h1>
-</div>
-
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="/gender">Gender</a></li>
-                <li><a href="/age">Age</a></li>
-        </div>
-    </div>
-</nav>
 
 <form method='post' action="/gender">
     <select name="gender" id="">
-        <option value="allSex">No sex group</option>
-        <option value="M">Male</option>
-        <option value="F">Female</option>
+        <option value="allSex">Пол не выбран</option>
+        <option value="M">Мужчины</option>
+        <option value="F">Женщины</option>
     </select>
 
     <select name="age" id="">
-        <option value="allAge">All age groups</option>
-        <option value="age1">age0to20</option>
-        <option value="age2">age21to30</option>
-        <option value="age3">age31to40</option>
-        <option value="age4">age41to50</option>
-        <option value="age5">age51to60</option>
-        <option value="age6">age61AndOlder</option>
+        <option value="allAge">Все возрастные группы</option>
+        <option value="age1">< 20</option>
+        <option value="age2">21 - 30</option>
+        <option value="age3">31 - 40</option>
+        <option value="age4">41 - 50</option>
+        <option value="age5">51 - 60</option>
+        <option value="age6">> 60</option>
     </select>
     <input type="submit">
 </form>

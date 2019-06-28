@@ -10,7 +10,7 @@ const Farm = require('../models/farms');
 const router = express.Router();
 // route for Home-Page
 router.get('/', (req, res) => {
-  res.redirect('/home');
+  res.redirect('/dashboard');
 });
 
 
