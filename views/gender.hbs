@@ -14,14 +14,14 @@
 </nav>
 
 <form method='post' action="/gender">
-    {{!-- <select name="gender" id="">
+    <select name="gender" id="">
         <option value="allSex">No sex group</option>
         <option value="M">Male</option>
         <option value="F">Female</option>
-    </select> --}}
+    </select>
 
     <select name="age" id="">
-        <option value="allAge">No age group</option>
+        <option value="allAge">All age groups</option>
         <option value="age1">age0to20</option>
         <option value="age2">age21to30</option>
         <option value="age3">age31to40</option>
@@ -31,13 +31,19 @@
     </select>
     <input type="submit">
 </form>
+{{#if showMaleGraph }}
+adsfasdf
+{{/if}}
+{{#if showFemaleGraph}}
+123123
+{{/if}}
 
 
 <script type="text/javascript">google.charts.load("current", { packages: ["corechart"] });
         google.charts.setOnLoadCallback(drawChart);
         function drawChart() {
             let data = google.visualization.arrayToDataTable([
-                ['Пол', 'Проценты',],
+                ['Пол', 'Проценты'],
                 ['Женщины', {{gender.m}}],
                 ['Мужчины', {{gender.f}}],
 
@@ -60,33 +66,3 @@
     <body>
         <div id="donutchart" style="width: 900px; height: 500px;"></div>
     </body>
-
-{{#if noSex}}
-<script type="text/javascript">google.charts.load("current", { packages: ["corechart"] });
-        google.charts.setOnLoadCallback(drawChart);
-        function drawChart() {
-            let data = google.visualization.arrayToDataTable([
-                ['Пол', 'Проценты','aaa'],
-                ['Женщины', 78,33],
-                ['Мужчины', 22,44],
-
-            ]);
-
-            let options = {
-                title: 'РАСПРЕДЕЛЕНИЕ ПО ПОЛУ',
-                pieHole: 0.50,
-                legend: { position: 'bottom' },
-                titleTextStyle: {
-                    fontSize: 24,
-                    bold: true,
-                }
-            };
-
-            let chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-            chart.draw(data, options);
-        }
-    </script>
-    <body>
-        <div id="donutchart" style="width: 900px; height: 500px;"></div>
-    </body>
-{{/if}}
