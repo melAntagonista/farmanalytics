@@ -6,7 +6,7 @@ const Farm = require('../models/farms');
 const router = express.Router();
 // route for Home-Page
 router.get('/', sessionChecker, (req, res) => {
-  res.redirect('/login');
+  res.redirect('/dashboard');
 });
 
 router.route('/1')
@@ -21,8 +21,6 @@ router.route('/1')
       let allGender = await Farm.find()
       let malePercent = (maleGender.length * 100 / allGender.length).toFixed(2)
       let femalePercent = (100 - malePercent).toFixed(2)
-      console.log(malePercent, '%')
-      console.log(femalePercent, '%')
     res.render('1', {malePercent, femalePercent});
   })
 
@@ -87,6 +85,8 @@ router.route('/1')
     res.render('5', {});
   })
 
+  
+
 // route for user Login
 router.route('/login')
   .get(sessionChecker, (req, res) => {
@@ -112,11 +112,7 @@ router.route('/login')
 
 // route for user's dashboard
 router.get('/dashboard', (req, res) => {
-  if (req.session.user && req.cookies.user_sid) {
     res.render('dashboard');
-  } else {
-    res.redirect('/login');
-  }
 });
 
 
