@@ -1,0 +1,39 @@
+<script type="text/javascript">
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Возраст', 'Проценты'],
+                ['<21', {{firstAgeGroup}}],
+                ['21-30', {{secondAgeGroup}}],
+                ['31-40', {{thirdAgeGroup}}],
+                ['41-50', {{fourthAgeGroup}}],
+                ['51-60', {{fifthAgeGroup}}],
+                ['>60', {{sixthAgeGroup}}]
+
+            ]);
+
+            var options = {
+                title: 'РАСПРЕДЕЛЕНИЕ ПО ВОЗРАСТУ',
+                pieHole: 0.65,
+                legend: { position: 'bottom' },
+                titleTextStyle: {
+                    fontSize: 24,
+                    bold: true,
+                }
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+        }
+    </script>
+
+    <div id="donutchart" style="width: 900px; height: 500px;"></div>
+    <div>
+    <p>Фильтр по полу<p>
+<select>
+    <option> без фильтра </option>
+  <option> Мужчины </option>
+  <option> Женщины </option>
+</select>
+</div>

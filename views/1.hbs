@@ -1,0 +1,40 @@
+ 
+    <script type="text/javascript">
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Пол', 'Проценты'],
+                ['Женщины', {{femalePercent}}],
+                ['Мужчины', {{malePercent}}],
+
+            ]);
+
+            var options = {
+                title: 'РАСПРЕДЕЛЕНИЕ ПО ПОЛУ',
+                pieHole: 0.65,
+                legend: { position: 'bottom' },
+                titleTextStyle: {
+                    fontSize: 24,
+                    bold: true,
+                }
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+        }
+    </script>
+
+    <div id="donutchart" style="width: 900px; height: 500px;"></div>
+    <div>
+     <p>Фильтр по возрасту</p>
+<select>
+    <option> без фильтра </option>
+  <option> <21</option>
+  <option>21 - 30</option>
+  <option>31 - 40</option>
+  <option>41 - 50</option>
+  <option>51 - 60</option>
+  <option> >60</option>
+</select>
+</div>
