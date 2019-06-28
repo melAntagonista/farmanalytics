@@ -1,0 +1,55 @@
+<form method='post' action="/migrane">
+    <select name="gender" id="">
+        <option value="allSex">No sex group</option>
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+    </select>
+
+  
+
+    <select name="age" id="">
+        <option value="allAge">All age groups</option>
+        <option value="age1">age0to20</option>
+        <option value="age2">age21to30</option>
+        <option value="age3">age31to40</option>
+        <option value="age4">age41to50</option>
+        <option value="age5">age51to60</option>
+        <option value="age6">age61AndOlder</option>
+    </select>
+    <input type="submit">
+</form>
+
+<h5>Number of people that suffer from migrane {{patientMigrane.count}}</h5>
+
+{{#if graph.plain}}
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load("current", { packages: ["corechart"] });
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Баллы', 'Проценты'],
+            ['0 баллов', {{ patientMigrane.low }}],
+    ['2-3 балла', {{ patientMigrane.midHigh }}],
+        ['4-5 баллов', {{ patientMigrane.mid }}],
+        ['6-8 баллов', {{ patientMigrane.midLow }}],
+        ['9-10 баллов', {{ patientMigrane.high }}]
+        ]);
+
+    var options = {
+        title: 'РАСПРЕДЕЛЕНИЕ ПАЦИЕНТОВ ПО ИНТЕНСИВНОСТИ ГОЛОВНОЙ БОЛИ (В БАЛЛАХ ПО ВАШ)',
+        pieHole: 0.65,
+        legend: { position: 'bottom' },
+        titleTextStyle: {
+            fontSize: 24,
+            bold: true,
+        }
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+    chart.draw(data, options);
+    }
+</script>
+<div id="donutchart" style="width: 900px; height: 500px;"></div>
+{{/if}}

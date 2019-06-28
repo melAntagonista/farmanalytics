@@ -3,7 +3,7 @@ const express = require('express');
 const {
   sessionChecker
 } = require('../middleware/auth');
-const User = require('../models/users');
+
 const Farm = require('../models/farms');
 
 
@@ -171,8 +171,8 @@ router.route('/gender')
           }).count()
           female = await Farm.find({
             age: {
-              $gt: '51',
-              $lt: '60'
+              $gte: '51',
+              $lte: '60'
             },
             gender: 'M'
           }).count()
@@ -180,7 +180,6 @@ router.route('/gender')
           male = await Farm.find({
             age: {
               $gte: '60',
-
             },
             gender: 'F'
           }).count()
@@ -213,86 +212,618 @@ router.route('/gender')
 
   })
 
+router.route('/migrane')
+  .get(async (req, res) => {
 
-// route for user signup
-// router.route('/signup')
-//   .get(sessionChecker, (req, res) => {
-//     res.render('signup');
+    res.render('migrane.hbs', {})
+  })
+  .post(async (req, res) => {
+    console.log(req.body.gender)
+    console.log(req.body.age)
+    let patientMigrane = {
+      count: 0,
+      high: 0,
+      midHigh: 0,
+      mid: 0,
+      midLow: 0,
+      low: 0
+    }
+    let patientGender = {
+      male: 0,
+      female: 0
+    }
+    let graph = {
+      plain: 0,
+      manGraph: 0,
+      femaleGraph: 0,
+      age: 0,
+      manLow: 0,
+      manLowMid: 0,
+      manMid: 0,
+      manMidHigh: 0,
+      manHigh: 0,
+      womanLow: 0,
+      womanLowMid: 0,
+      womanMid: 0,
+      womanMidHigh: 0,
+      womanHigh: 0
+    }
+
+    if (req.body.gender === 'M' || req.body.gender === 'F') {
+      graph.plain++
+      patientMigrane.high = await Farm.find({
+        gender: req.body.gender,
+        painIntencity: 'ВАШ 9-10 баллов'
+      }).count()
+      console.log()
+      patientMigrane.midHigh = await Farm.find({
+        painIntencity: 'ВАШ 6-8 баллов',
+        gender: req.body.gender,
+      }).count()
+      patientMigrane.mid = await Farm.find({
+        painIntencity: 'ВАШ 4-5 баллов',
+        gender: req.body.gender,
+      }).count()
+      patientMigrane.midLow = await Farm.find({
+        painIntencity: 'ВАШ 2-3 балла',
+        gender: req.body.gender,
+      }).count()
+      patientMigrane.low = await Farm.find({
+        painIntencity: 'ВАШ 0 баллов',
+        gender: req.body.gender,
+      }).count()
+    } else {
+      graph.plain++
+      patientMigrane.high = await Farm.find({
+        painIntencity: 'ВАШ 9-10 баллов'
+      }).count()
+      console.log()
+      patientMigrane.midHigh = await Farm.find({
+        painIntencity: 'ВАШ 6-8 баллов'
+      }).count()
+      patientMigrane.mid = await Farm.find({
+        painIntencity: 'ВАШ 4-5 баллов'
+      }).count()
+      patientMigrane.midLow = await Farm.find({
+        painIntencity: 'ВАШ 2-3 балла'
+      }).count()
+      patientMigrane.low = await Farm.find({
+        painIntencity: 'ВАШ 0 баллов'
+      }).count()
+    }
+    let ggg = req.body.age
+
+    if (req.body.gender === 'allSex' && req.body.age === 'age1') {
+      graph.plain++
+      patientMigrane.low = await Farm.find({
+        age: {
+          // $gte: '51',
+          $lte: '20'
+        },
+
+        painIntencity: 'ВАШ 0 баллов'
+      }).count()
+      patientMigrane.midLow = await Farm.find({
+        age: {
+          // $gte: '51',
+          $lte: '20'
+        },
+
+        painIntencity: 'ВАШ 2-3 балла'
+      }).count()
+      patientMigrane.mid = await Farm.find({
+        age: {
+          // $gte: '51',
+          $lte: '20'
+        },
+
+        painIntencity: 'ВАШ 4-5 баллов'
+      }).count()
+      patientMigrane.midHigh = await Farm.find({
+        age: {
+          // $gte: '51',
+          $lte: '20'
+        },
+
+        painIntencity: 'ВАШ 6-8 баллов'
+      }).count()
+      patientMigrane.high = await Farm.find({
+        age: {
+          // $gte: '51',
+          $lte: '20'
+        },
+
+        painIntencity: 'ВАШ 9-10 баллов'
+      }).count()
+    } else if (req.body.gender === 'allSex' && req.body.age === 'age2') {
+      graph.age++
+      patientMigrane.low = await Farm.find({
+        age: {
+          $gte: '21',
+          $lte: '30'
+        },
+        painIntencit: 'ВАШ 0 баллов'
+      }).count()
+      patientMigrane.midLow = await Farm.find({
+        age: {
+          $gte: '21',
+          $lte: '30'
+        },
+        painIntencity: 'ВАШ 2-3 балла'
+      }).count()
+      patientMigrane.mid = await Farm.find({
+        age: {
+          $gte: '21',
+          $lte: '30'
+        },
+        painIntencity: 'ВАШ 4-5 баллов'
+      }).count()
+      patientMigrane.midHigh = await Farm.find({
+        age: {
+          $gte: '21',
+          $lte: '30'
+        },
+        painIntencity: 'ВАШ 6-8 баллов'
+      }).count()
+      patientMigrane.high = await Farm.find({
+        age: {
+          $gte: '21',
+          $lte: '30'
+        },
+        painIntencity: 'ВАШ 9-10 баллов'
+      }).count()
+    } else if (req.body.gender === 'allSex' && req.body.age === 'age3') {
+      graph.age++
+      patientMigrane.low = await Farm.find({
+        age: {
+          $gte: '31',
+          $lte: '40'
+        },
+        painIntencit: 'ВАШ 0 баллов'
+      }).count()
+      patientMigrane.midLow = await Farm.find({
+        age: {
+          $gte: '31',
+          $lte: '40'
+        },
+        painIntencity: 'ВАШ 2-3 балла'
+      }).count()
+      patientMigrane.mid = await Farm.find({
+        age: {
+          $gte: '31',
+          $lte: '40'
+        },
+        painIntencity: 'ВАШ 4-5 баллов'
+      }).count()
+      patientMigrane.midHigh = await Farm.find({
+        age: {
+          $gte: '31',
+          $lte: '40'
+        },
+        painIntencity: 'ВАШ 6-8 баллов'
+      }).count()
+      patientMigrane.high = await Farm.find({
+        age: {
+          $gte: '31',
+          $lte: '40'
+        },
+        painIntencity: 'ВАШ 9-10 баллов'
+      }).count()
+
+    } else if (req.body.gender === 'allSex' && req.body.age === 'age4') {
+      graph.age++
+      patientMigrane.low = await Farm.find({
+        age: {
+          $gte: '41',
+          $lte: '50'
+        },
+        painIntencit: 'ВАШ 0 баллов'
+      }).count()
+      patientMigrane.midLow = await Farm.find({
+        age: {
+          $gte: '41',
+          $lte: '50'
+        },
+        painIntencity: 'ВАШ 2-3 балла'
+      }).count()
+      patientMigrane.mid = await Farm.find({
+        age: {
+          $gte: '41',
+          $lte: '50'
+        },
+        painIntencity: 'ВАШ 4-5 баллов'
+      }).count()
+      patientMigrane.midHigh = await Farm.find({
+        age: {
+          $gte: '41',
+          $lte: '50'
+        },
+        painIntencity: 'ВАШ 6-8 баллов'
+      }).count()
+      patientMigrane.high = await Farm.find({
+        age: {
+          $gte: '41',
+          $lte: '50'
+        },
+        painIntencity: 'ВАШ 9-10 баллов'
+      }).count()
+
+    } else if (req.body.gender === 'allSex' && req.body.age === 'age5') {
+      graph.age++
+      patientMigrane.low = await Farm.find({
+        age: {
+          $gte: '51',
+          $lte: '60'
+        },
+        painIntencit: 'ВАШ 0 баллов'
+      }).count()
+      patientMigrane.midLow = await Farm.find({
+        age: {
+          $gte: '51',
+          $lte: '60'
+        },
+        painIntencity: 'ВАШ 2-3 балла'
+      }).count()
+      patientMigrane.mid = await Farm.find({
+        age: {
+          $gte: '51',
+          $lte: '60'
+        },
+        painIntencity: 'ВАШ 4-5 баллов'
+      }).count()
+      patientMigrane.midHigh = await Farm.find({
+        age: {
+          $gte: '51',
+          $lte: '60'
+        },
+        painIntencity: 'ВАШ 6-8 баллов'
+      }).count()
+      patientMigrane.high = await Farm.find({
+        age: {
+          $gte: '51',
+          $lte: '60'
+        },
+        painIntencity: 'ВАШ 9-10 баллов'
+      }).count()
+
+    } else if (req.body.gender === 'allSex' && req.body.age === 'age6') {
+      graph.age++
+      patientMigrane.low = await Farm.find({
+        age: {
+          $gte: '60'
+        },
+        painIntencit: 'ВАШ 0 баллов'
+      }).count()
+      patientMigrane.midLow = await Farm.find({
+        age: {
+          $gte: '60'
+        },
+        painIntencity: 'ВАШ 2-3 балла'
+      }).count()
+      patientMigrane.mid = await Farm.find({
+        age: {
+          $gte: '60'
+        },
+        painIntencity: 'ВАШ 4-5 баллов'
+      }).count()
+      patientMigrane.midHigh = await Farm.find({
+        age: {
+          $gte: '60'
+        },
+        painIntencity: 'ВАШ 6-8 баллов'
+      }).count()
+      patientMigrane.high = await Farm.find({
+        age: {
+          $gte: '60'
+        },
+        painIntencity: 'ВАШ 9-10 баллов'
+      }).count()
+
+    }
+
+    if (req.body.gender === 'M' || req.body.gender === 'F') {
+      if (req.body.age === 'age1') {
+        graph.plain++
+        patientMigrane.low = await Farm.find({
+          age: {
+            // $gte: '51',
+            $lte: '20'
+          },
+          gender: req.body.gender,
+          painIntencity: 'ВАШ 0 баллов'
+        }).count()
+        patientMigrane.midLow = await Farm.find({
+          age: {
+            // $gte: '51',
+            $lte: '20'
+          },
+          gender: req.body.gender,
+          painIntencity: 'ВАШ 2-3 балла'
+        }).count()
+        patientMigrane.mid = await Farm.find({
+          age: {
+            // $gte: '51',
+            $lte: '20'
+          },
+          gender: req.body.gender,
+          painIntencity: 'ВАШ 4-5 баллов'
+        }).count()
+        patientMigrane.midHigh = await Farm.find({
+          age: {
+            // $gte: '51',
+            $lte: '20'
+          },
+          gender: req.body.gender,
+          painIntencity: 'ВАШ 6-8 баллов'
+        }).count()
+        patientMigrane.high = await Farm.find({
+          age: {
+            // $gte: '51',
+            $lte: '20'
+          },
+          gender: req.body.gender,
+          painIntencity: 'ВАШ 9-10 баллов'
+        }).count()
+      } else if (req.body.age === 'age2') {
+        graph.age++
+        patientMigrane.low = await Farm.find({
+          age: {
+            $gte: '21',
+            $lte: '30'
+          },
+          painIntencit: 'ВАШ 0 баллов',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.midLow = await Farm.find({
+          age: {
+            $gte: '21',
+            $lte: '30'
+          },
+          painIntencity: 'ВАШ 2-3 балла',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.mid = await Farm.find({
+          age: {
+            $gte: '21',
+            $lte: '30'
+          },
+          painIntencity: 'ВАШ 4-5 баллов',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.midHigh = await Farm.find({
+          age: {
+            $gte: '21',
+            $lte: '30'
+          },
+          painIntencity: 'ВАШ 6-8 баллов',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.high = await Farm.find({
+          age: {
+            $gte: '21',
+            $lte: '30'
+          },
+          painIntencity: 'ВАШ 9-10 баллов',
+          gender: req.body.gender,
+        }).count()
+      } else if (req.body.age === 'age3') {
+        graph.age++
+        patientMigrane.low = await Farm.find({
+          age: {
+            $gte: '31',
+            $lte: '40'
+          },
+          painIntencit: 'ВАШ 0 баллов',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.midLow = await Farm.find({
+          age: {
+            $gte: '31',
+            $lte: '40'
+          },
+          painIntencity: 'ВАШ 2-3 балла',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.mid = await Farm.find({
+          age: {
+            $gte: '31',
+            $lte: '40'
+          },
+          painIntencity: 'ВАШ 4-5 баллов',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.midHigh = await Farm.find({
+          age: {
+            $gte: '31',
+            $lte: '40'
+          },
+          painIntencity: 'ВАШ 6-8 баллов',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.high = await Farm.find({
+          age: {
+            $gte: '31',
+            $lte: '40'
+          },
+          painIntencity: 'ВАШ 9-10 баллов',
+          gender: req.body.gender,
+        }).count()
+
+      } else if (req.body.age === 'age4') {
+        graph.age++
+        patientMigrane.low = await Farm.find({
+          age: {
+            $gte: '41',
+            $lte: '50'
+          },
+          painIntencit: 'ВАШ 0 баллов',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.midLow = await Farm.find({
+          age: {
+            $gte: '41',
+            $lte: '50'
+          },
+          painIntencity: 'ВАШ 2-3 балла',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.mid = await Farm.find({
+          age: {
+            $gte: '41',
+            $lte: '50'
+          },
+          painIntencity: 'ВАШ 4-5 баллов',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.midHigh = await Farm.find({
+          age: {
+            $gte: '41',
+            $lte: '50'
+          },
+          painIntencity: 'ВАШ 6-8 баллов',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.high = await Farm.find({
+          age: {
+            $gte: '41',
+            $lte: '50'
+          },
+          painIntencity: 'ВАШ 9-10 баллов',
+          gender: req.body.gender,
+        }).count()
+
+      } else if (req.body.age === 'age5') {
+        graph.age++
+        patientMigrane.low = await Farm.find({
+          age: {
+            $gte: '51',
+            $lte: '60'
+          },
+          painIntencit: 'ВАШ 0 баллов',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.midLow = await Farm.find({
+          age: {
+            $gte: '51',
+            $lte: '60'
+          },
+          painIntencity: 'ВАШ 2-3 балла',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.mid = await Farm.find({
+          age: {
+            $gte: '51',
+            $lte: '60'
+          },
+          painIntencity: 'ВАШ 4-5 баллов',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.midHigh = await Farm.find({
+          age: {
+            $gte: '51',
+            $lte: '60'
+          },
+          painIntencity: 'ВАШ 6-8 баллов',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.high = await Farm.find({
+          age: {
+            $gte: '51',
+            $lte: '60'
+          },
+          painIntencity: 'ВАШ 9-10 баллов',
+          gender: req.body.gender,
+        }).count()
+
+      } else if (req.body.age === 'age6') {
+        graph.age++
+        patientMigrane.low = await Farm.find({
+          age: {
+            $gte: '60'
+          },
+          painIntencit: 'ВАШ 0 баллов',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.midLow = await Farm.find({
+          age: {
+            $gte: '60'
+          },
+          painIntencity: 'ВАШ 2-3 балла',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.mid = await Farm.find({
+          age: {
+            $gte: '60'
+          },
+          painIntencity: 'ВАШ 4-5 баллов',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.midHigh = await Farm.find({
+          age: {
+            $gte: '60'
+          },
+          painIntencity: 'ВАШ 6-8 баллов',
+          gender: req.body.gender,
+        }).count()
+        patientMigrane.high = await Farm.find({
+          age: {
+            $gte: '60'
+          },
+          painIntencity: 'ВАШ 9-10 баллов',
+          gender: req.body.gender,
+        }).count()
+
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+    console.log(patientMigrane)
+    res.render('migrane.hbs', {
+      patientMigrane,
+      patientGender,
+      graph,
+      ggg
+    })
+  })
+
+
+
 
 router.route('/1')
   .get(async (req, res) => {
-      let maleGender = await Farm.find({
-          gender: 'M'
-      }, {
-          gender: 1,
-          _id: 0
-      })
 
-      let allGender = await Farm.find()
-      let malePercent = (maleGender.length * 100 / allGender.length).toFixed(2)
-      let femalePercent = (100 - malePercent).toFixed(2)
-      console.log(malePercent, '%')
-      console.log(femalePercent, '%')
-    res.render('1', {malePercent, femalePercent});
-//   })
+    res.render('1', {
 
-//   router.route('/2')
-//   .get(async (req, res) => {
+    });
 
-//       let ageArray = await Farm.find({}, {
-//           age: 1,
-//           _id: 0
-//       })
-  
-      let ageGroups = []
-      let age0to20 = [];
-      let age21to30 = [];
-      let age31to40 = [];
-      let age41to50 = [];
-      let age51to60 = [];
-      let age61AndOlder = [];
-  
-      for (let i = 0; i < ageArray.length; i++) {
-          if (ageArray[i].age <= 20) {
-              age0to20.push(ageArray[i].age)
-          } else if (ageArray[i].age > 20 && ageArray[i].age <= 30) {
-              age21to30.push(ageArray[i].age)
-          } else if (ageArray[i].age > 30 && ageArray[i].age <= 40) {
-              age31to40.push(ageArray[i].age)
-          } else if (ageArray[i].age > 40 && ageArray[i].age <= 50) {
-              age41to50.push(ageArray[i].age)
-          } else if (ageArray[i].age > 50 && ageArray[i].age <= 60) {
-              age51to60.push(ageArray[i].age)
-          } else if (ageArray[i].age > 60) {
-              age61AndOlder.push(ageArray[i].age)
-          }
-      }
-      ageGroups = [age0to20, age21to30, age31to40, age41to50, age51to60, age61AndOlder]
-  
-      for (let j = 0; j < ageGroups.length; j++) {
-          ageGroups[j] = (ageGroups[j].length * 100 / ageArray.length).toFixed(2)
-      }
-      console.log(ageGroups)
-      let firstAgeGroup = ageGroups[0];
-      let secondAgeGroup = ageGroups[1];
-      let thirdAgeGroup = ageGroups[2];
-      let fourthAgeGroup = ageGroups[3];
-      let fifthAgeGroup = ageGroups[4];
-      let sixthAgeGroup = ageGroups[5];
-  
-    res.render('2', {firstAgeGroup, secondAgeGroup, thirdAgeGroup, fourthAgeGroup, fifthAgeGroup, sixthAgeGroup});
   })
-  router.route('/3')
+router.route('/2')
+  .get(async (req, res) => {
+
+
+    res.render('2', {
+
+    });
+  })
+router.route('/3')
   .get(async (req, res) => {
     res.render('3', {});
   })
 
-  router.route('/4')
+router.route('/4')
   .get(async (req, res) => {
     res.render('4', {});
   })
 
-  router.route('/5')
+router.route('/5')
   .get(async (req, res) => {
     res.render('5', {});
   })
@@ -366,79 +897,27 @@ router.route('/login')
   });
 
 
-// // route for user's dashboard
-// router.get('/dashboard', async (req, res) => {
-  // let patient = await Farm.find({})
-  // let patientCount = 0
-  // let male = 0
-  // let female = 0
+// route for user's dashboard
+router.get('/dashboard', async (req, res) => {
 
-  // for (let i = 0; i < patient.length; i++) {
-  //   if (patient[i].gender === 'F') {
-  //     female++
-  //   } else {
-  //     male++
-  //   }
-  //   patientCount++
-  // }
-
-
-  // let age0to20 = 0;
-  // let age21to30 = 0;
-  // let age31to40 = 0;
-  // let age41to50 = 0;
-  // let age51to60 = 0;
-  // let age61AndOlder = 0;
-
-  // for (let i = 0; i < patient.length; i++) {
-  //   if (patient[i].age <= 20) {
-  //     age0to20++
-  //   } else if (patient[i].age > 20 && patient[i].age <= 30) {
-  //     age21to30++
-  //   } else if (patient[i].age > 30 && patient[i].age <= 40) {
-  //     age31to40++
-  //   } else if (patient[i].age > 40 && patient[i].age <= 50) {
-  //     age41to50++
-  //   } else if (patient[i].age > 50 && patient[i].age <= 60) {
-  //     age51to60++
-  //   } else if (patient[i].age > 60) {
-  //     age61AndOlder++
-  //   }
-  // }
-  // let age = {
-  //   age1: age0to20,
-  //   age2: age21to30,
-  //   age3: age31to40,
-  //   age4: age41to50,
-  //   age5: age51to60,
-  //   age6: age61AndOlder
-  // }
-  // let gender = {
-  //   m: male,
-  //   f: female,
-  //   all: patientCount
-  // }
-
-  // console.log(patient)
-//   res.render('index.hbs')
-// });
+  res.render('index.hbs')
+});
 
 
 // route for user logout
-// router.get('/logout', async (req, res, next) => {
-//   if (req.session.user && req.cookies.user_sid) {
-//     try {
-//       // res.clearCookie('user_sid');
-//       await req.session.destroy();
-//       res.redirect('/');
-//     } catch (error) {
-//       next(error);
-//     }
-//   } else {
-//     res.redirect('/login');
-//   }
-// });
+router.get('/logout', async (req, res, next) => {
+  if (req.session.user && req.cookies.user_sid) {
+    try {
+      // res.clearCookie('user_sid');
+      await req.session.destroy();
+      res.redirect('/');
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    res.redirect('/login');
+  }
+});
 
 
 module.exports = router;
-
