@@ -218,7 +218,7 @@ router.route('/gender')
 // router.route('/signup')
 //   .get(sessionChecker, (req, res) => {
 //     res.render('signup');
-=======
+
 router.route('/1')
   .get(async (req, res) => {
       let maleGender = await Farm.find({
