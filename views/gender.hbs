@@ -32,20 +32,19 @@
     <input type="submit">
 </form>
 {{#if showMaleGraph }}
-adsfasdf
-{{/if}}
-{{#if showFemaleGraph}}
-123123
-{{/if}}
-
 
 <script type="text/javascript">google.charts.load("current", { packages: ["corechart"] });
         google.charts.setOnLoadCallback(drawChart);
         function drawChart() {
             let data = google.visualization.arrayToDataTable([
                 ['Пол', 'Проценты'],
-                ['Женщины', {{gender.m}}],
-                ['Мужчины', {{gender.f}}],
+                ['0 - 20', {{genderAgeCount.age1}}],
+                ['21 - 30', {{genderAgeCount.age2}}],
+                ['31 - 40', {{genderAgeCount.age3}}],
+                ['41 - 50', {{genderAgeCount.age4}}],
+                ['51 - 60', {{genderAgeCount.age5}}],
+                ['60<', {{genderAgeCount.age6}}],
+
 
             ]);
 
@@ -66,3 +65,72 @@ adsfasdf
     <body>
         <div id="donutchart" style="width: 900px; height: 500px;"></div>
     </body>
+    
+{{/if}}
+{{#if showFemaleGraph}}
+
+<script type="text/javascript">google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            let data = google.visualization.arrayToDataTable([
+                ['Пол', 'Проценты'],
+                ['0 - 20', {{genderAgeCount.age1}}],
+                ['21 - 30', {{genderAgeCount.age2}}],
+                ['31 - 40', {{genderAgeCount.age3}}],
+                ['41 - 50', {{genderAgeCount.age4}}],
+                ['51 - 60', {{genderAgeCount.age5}}],
+                ['60<', {{genderAgeCount.age6}}],
+
+                
+
+            ]);
+
+            let options = {
+                title: 'РАСПРЕДЕЛЕНИЕ ПО ПОЛУ',
+                pieHole: 0.50,
+                legend: { position: 'bottom' },
+                titleTextStyle: {
+                    fontSize: 24,
+                    bold: true,
+                }
+            };
+
+            let chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+        }
+    </script>
+    <body>
+        <div id="donutchart" style="width: 900px; height: 500px;"></div>
+    </body>
+
+{{/if}}
+{{#if showAll}}
+<script type="text/javascript">google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            let data = google.visualization.arrayToDataTable([
+                ['Пол', 'Проценты'],
+                ['Женщины', {{gender.m}}],
+                ['Мужчины', {{gender.f}}],
+                
+
+            ]);
+
+            let options = {
+                title: 'РАСПРЕДЕЛЕНИЕ ПО ПОЛУ',
+                pieHole: 0.50,
+                legend: { position: 'bottom' },
+                titleTextStyle: {
+                    fontSize: 24,
+                    bold: true,
+                }
+            };
+
+            let chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+        }
+    </script>
+    <body>
+        <div id="donutchart" style="width: 900px; height: 500px;"></div>
+    </body>
+    {{/if}}
