@@ -20,8 +20,39 @@
     </div><!-- /.container-fluid -->
 </nav>
 
-<div class="container row">
-    <div class="jumbotron col-sm-4 pull-center">
+{{!-- <div class="container row">
+    <script type="text/javascript">google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            let data = google.visualization.arrayToDataTable([
+                ['Пол', 'Проценты'],
+                ['Женщины', 78],
+                ['Мужчины', 22],
+
+            ]);
+
+            let options = {
+                title: 'РАСПРЕДЕЛЕНИЕ ПО ПОЛУ',
+                pieHole: 0.50,
+                legend: { position: 'bottom' },
+                titleTextStyle: {
+                    fontSize: 24,
+                    bold: true,
+                }
+            };
+
+            let chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+        }
+    </script> --}}
+
+
+    
+
+    <body>
+        <div id="donutchart" style="width: 900px; height: 500px;"></div>
+    </body>
+    {{!-- <div class="jumbotron col-sm-4 pull-center">
         <form action="/signup" method="post">
             <div>
                 <label>Username:</label>
@@ -39,5 +70,5 @@
                 <input class="btn btn-primary" type="submit" value="Sign Up" />
             </div>
         </form>
-    </div>
+    </div> --}}
 </div>

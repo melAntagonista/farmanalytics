@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const Farm = require('../models/farms');
 const fs = require('fs')
-mongoose.connect('mongodb://localhost:27017/farmanalytics', { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost:27017/farmanalytics', {
+    useNewUrlParser: true
+});
 
 let dataArr = []
 
@@ -21,7 +23,7 @@ function parse(filename) {
 }
 
 
-parse('data.csv')
+// parse('data.csv')
 // console.log(dataArr)
 
 
@@ -211,7 +213,6 @@ let schemaVariablesEng = ['CODE ID',
     'To whom are the FBI assigned?',
     'Clinic'
 ]
-
 let newNewEng = ['codeID',
     'sympDuration',
     'attackDuration',
@@ -300,6 +301,7 @@ let newNewEng = ['codeID',
     'clinic'
 ]
 
+
 async function seedBase() {
     for (let i = 1; i < dataArr.length; i++) {
         const farmData = {}
@@ -315,7 +317,9 @@ async function seedBase() {
 seedBase()
 
 async function name() {
-    let user = await Farm.find({codeID:'"RU05-208114"'})
+    let user = await Farm.find({
+        codeID: '"RU05-208114"'
+    })
     console.log(user)
 }
 
@@ -415,3 +419,196 @@ magraineCalls()
 
 // age()
 
+async function gender() {
+    let maleGender = await Farm.find({
+        gender: 'M'
+    }, {
+        gender: 1,
+        _id: 0
+    })
+
+    let allGender = await Farm.find()
+
+    let malePercent = (maleGender.length * 100 / allGender.length).toFixed(2)
+    let femalePercent = (100 - malePercent).toFixed(2)
+    console.log(malePercent, '%')
+    console.log(femalePercent, '%')
+}
+
+// gender()
+
+async function age() {
+
+    let ageArray = await Farm.find({}, {
+        age: 1,
+        _id: 0
+    })
+
+    let ageGroups = []
+    let age0to20 = [];
+    let age21to30 = [];
+    let age31to40 = [];
+    let age41to50 = [];
+    let age51to60 = [];
+    let age61AndOlder = [];
+
+    for (let i = 0; i < ageArray.length; i++) {
+        if (ageArray[i].age <= 20) {
+            age0to20.push(ageArray[i].age)
+        } else if (ageArray[i].age > 20 && ageArray[i].age <= 30) {
+            age21to30.push(ageArray[i].age)
+        } else if (ageArray[i].age > 30 && ageArray[i].age <= 40) {
+            age31to40.push(ageArray[i].age)
+        } else if (ageArray[i].age > 40 && ageArray[i].age <= 50) {
+            age41to50.push(ageArray[i].age)
+        } else if (ageArray[i].age > 50 && ageArray[i].age <= 60) {
+            age51to60.push(ageArray[i].age)
+        } else if (ageArray[i].age > 60) {
+            age61AndOlder.push(ageArray[i].age)
+        }
+    }
+    ageGroups = [age0to20, age21to30, age31to40, age41to50, age51to60, age61AndOlder]
+
+    for (let j = 0; j < ageGroups.length; j++) {
+        ageGroups[j] = (ageGroups[j].length * 100 / ageArray.length).toFixed(2)
+    }
+
+    console.log(ageGroups)
+
+}
+
+// age()
+
+async function allPatients() {
+    let patient = await Farm.find({}, {
+        gender: 1,
+        age: 1
+    })
+
+    let male = [];
+    let female = [];
+
+
+    let ageGroups = []
+    let age0to20 = [];
+    let age21to30 = [];
+    let age31to40 = [];
+    let age41to50 = [];
+    let age51to60 = [];
+    let age61AndOlder = [];
+
+    for (let i = 0; i < patient.length; i++) {
+
+        if (patient[i].age <= 20) {
+            age0to20.push(patient[i].age)
+        } else if (patient[i].age > 20 && patient[i].age <= 30) {
+            age21to30.push(patient[i].age)
+        } else if (patient[i].age > 30 && patient[i].age <= 40) {
+            age31to40.push(patient[i].age)
+        } else if (patient[i].age > 40 && patient[i].age <= 50) {
+            age41to50.push(patient[i].age)
+        } else if (patient[i].age > 50 && patient[i].age <= 60) {
+            age51to60.push(patient[i].age)
+        } else if (patient[i].age > 60) {
+            age61AndOlder.push(patient[i].age)
+        }
+
+        if (patient[i].gender === 'F') {
+            male.push(patient[i].gender)
+        } else {
+            female.push(patient[i].gender)
+        }
+
+    }
+
+    let malePercent = (male.length * 100 / patient.length).toFixed(2)
+    let femalePercent = (100 - malePercent).toFixed(2)
+    console.log(malePercent, '%')
+    console.log(femalePercent, '%')
+    ageGroups = [age0to20, age21to30, age31to40, age41to50, age51to60, age61AndOlder]
+
+    for (let j = 0; j < ageGroups.length; j++) {
+        ageGroups[j] = (ageGroups[j].length * 100 / patient.length).toFixed(2)
+    }
+    console.log(ageGroups)
+
+}
+
+// allPatients()
+
+async function migrane() {
+    let patient = await Farm.find({}, {
+        gender: 1,
+        age: 1,
+        painIntencity: 1
+    })
+
+
+
+    let maleCount = [];
+    let femaleCount = [];
+
+    let ageGroups = []
+    let age0to20 = [];
+    let age21to30 = [];
+    let age31to40 = [];
+    let age41to50 = [];
+    let age51to60 = [];
+    let age61AndOlder = [];
+
+    for (let i = 0; i < patient.length; i++) {
+
+        if (patient) {
+
+        }
+
+        if (patient[i].age <= 20) {
+            age0to20.push(patient[i].age)
+        } else if (patient[i].age > 20 && patient[i].age <= 30) {
+            age21to30.push(patient[i].age)
+        } else if (patient[i].age > 30 && patient[i].age <= 40) {
+            age31to40.push(patient[i].age)
+        } else if (patient[i].age > 40 && patient[i].age <= 50) {
+            age41to50.push(patient[i].age)
+        } else if (patient[i].age > 50 && patient[i].age <= 60) {
+            age51to60.push(patient[i].age)
+        } else if (patient[i].age > 60) {
+            age61AndOlder.push(patient[i].age)
+        }
+
+        if (patient[i].gender === 'F') {
+            femaleCount.push(patient[i].gender)
+        } else {
+            maleCount.push(patient[i].gender)
+        }
+
+    }
+
+    let malePercent = (maleCount.length * 100 / patient.length).toFixed(2)
+    let femalePercent = (100 - malePercent).toFixed(2)
+    console.log(malePercent)
+    console.log(femalePercent)
+
+    ageGroups = [age0to20, age21to30, age31to40, age41to50, age51to60, age61AndOlder]
+
+    for (let j = 0; j < ageGroups.length; j++) {
+        ageGroups[j] = (ageGroups[j].length * 100 / patient.length).toFixed(2)
+    }
+    console.log(ageGroups)
+
+}
+
+// migrane()
+
+async function f() {
+    let i = await Farm.find({
+        gender: 'F'
+    }, {
+        gender: 1
+    })
+    console.log(i)
+}
+// f()
+
+
+patient = await Farm.count({})
