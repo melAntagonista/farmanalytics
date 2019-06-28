@@ -317,7 +317,7 @@ async function seedBase() {
     mongoose.disconnect()
 }
 
-// seedBase()
+seedBase()
 
 async function name() {
     let user = await Farm.find({
